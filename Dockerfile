@@ -22,11 +22,16 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 
-# Create .dev.vars with placeholder keys
+# Remove build-time wrangler.json (contains hardcoded local paths)
+RUN rm -f dist/solofounder_canvas/wrangler.json
+
+# Create .dev.vars with placeholder keys (overridden by fly secrets at runtime)
 RUN echo 'ANTHROPIC_API_KEY=placeholder' > .dev.vars && \
     echo 'OPENAI_API_KEY=placeholder' >> .dev.vars && \
     echo 'GOOGLE_API_KEY=placeholder' >> .dev.vars
@@ -58,4 +63,4 @@ EXPOSE 8787
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
   CMD curl -f http://localhost:8787/ || exit 1
 
-CMD ["node_modules/.bin/wrangler", "dev", "--local", "--no-bundle", "--port", "8787", "--ip", "0.0.0.0", "--persist-to", "/data"]
+CMD ["sh", "-c", "echo '=== Starting wrangler ===' && node_modules/.bin/wrangler dev --local --no-bundle --port 8787 --ip 0.0.0.0 --persist-to /data 2>&1"]
