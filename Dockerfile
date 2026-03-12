@@ -16,8 +16,8 @@ ENV NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Create empty .dev.vars so wrangler doesn't complain
-RUN touch .dev.vars
+# Create .dev.vars with placeholder keys so wrangler doesn't crash on missing bindings
+RUN echo 'ANTHROPIC_API_KEY=placeholder\nOPENAI_API_KEY=placeholder\nGOOGLE_API_KEY=placeholder' > .dev.vars
 
 VOLUME ["/data"]
 
@@ -26,4 +26,5 @@ EXPOSE 8787
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
   CMD curl -f http://localhost:8787/ || exit 1
 
-CMD ["node_modules/.bin/wrangler", "dev", "--local", "--port", "8787", "--ip", "0.0.0.0", "--persist-to", "/data"]
+# Use sh -c to capture stderr in logs
+CMD ["sh", "-c", "exec node_modules/.bin/wrangler dev --local --port 8787 --ip 0.0.0.0 --persist-to /data --log-level info 2>&1"]
