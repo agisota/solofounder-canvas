@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useValue } from 'tldraw'
 import { TldrawAgent } from '../../agent/TldrawAgent'
+import { TypingIndicator } from '../TypingIndicator'
 import { ChatHistorySection, getAgentHistorySections } from './ChatHistorySection'
 
 /*
@@ -85,6 +86,7 @@ export function ChatHistory({ agent }: { agent: TldrawAgent }) {
 					/>
 				)
 			})}
+			{isGenerating && <TypingIndicator />}
 		</div>
 	)
 }
