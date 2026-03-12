@@ -1,0 +1,500 @@
+/* ═══════════════════════════════════════════════════════════════
+   SOLOFOUNDER CANVAS — Animations & Micro-Interactions
+   Premium motion design — factory.ai / heptabase quality
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────────── */
+/* KEYFRAMES                                                       */
+/* ────────────────────────────────────────────────────────────── */
+
+/* Fade */
+@keyframes sf-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes sf-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Slide + Fade */
+@keyframes sf-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sf-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sf-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sf-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sf-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale */
+@keyframes sf-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sf-scale-in-spring {
+  0% {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Shimmer — for skeleton loading */
+@keyframes sf-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Progress bar shimmer */
+@keyframes sf-progress-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Pulse — opacity breathe */
+@keyframes sf-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+@keyframes sf-pulse-soft {
+  0%, 100% { opacity: 0.75; }
+  50%       { opacity: 0.35; }
+}
+
+/* Pulse ring — ripple out from element */
+@keyframes sf-pulse-ring {
+  0%   { box-shadow: 0 0 0 0   rgba(96, 165, 250, 0.28); }
+  70%  { box-shadow: 0 0 0 7px rgba(96, 165, 250, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(96, 165, 250, 0); }
+}
+
+/* Spin */
+@keyframes sf-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes sf-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Glow breathe — for active focus elements */
+@keyframes sf-glow-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(96, 165, 250, 0.06),
+      0 0 20px rgba(96, 165, 250, 0.03);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(96, 165, 250, 0.14),
+      0 0 40px rgba(96, 165, 250, 0.06);
+  }
+}
+
+/* Typing indicator — each dot bounces */
+@keyframes sf-typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+/* Note card expand */
+@keyframes sf-expand {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 600px;
+  }
+}
+
+/* Dash — for canvas context highlights */
+@keyframes dash {
+  to { stroke-dashoffset: -2000; }
+}
+
+/* Border glow pulse */
+@keyframes sf-border-glow {
+  0%, 100% { border-color: rgba(96, 165, 250, 0.15); }
+  50%       { border-color: rgba(96, 165, 250, 0.35); }
+}
+
+/* Checkbox tick draw */
+@keyframes sf-tick-draw {
+  from {
+    stroke-dashoffset: 20;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* CHAT MESSAGE ANIMATIONS                                         */
+/* ────────────────────────────────────────────────────────────── */
+
+/* User prompt bubbles — fade up when appended */
+.chat-history-prompt {
+  animation: sf-fade-in-up 320ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* Agent message text — slightly slower for reading flow */
+.agent-action-type-message {
+  animation: sf-fade-in-up 380ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* Agent action items — staggered slide up */
+.agent-action {
+  animation: sf-slide-up 280ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* Stagger the first 8 actions */
+.agent-action:nth-child(1) { animation-delay: 0ms;   }
+.agent-action:nth-child(2) { animation-delay: 45ms;  }
+.agent-action:nth-child(3) { animation-delay: 90ms;  }
+.agent-action:nth-child(4) { animation-delay: 135ms; }
+.agent-action:nth-child(5) { animation-delay: 180ms; }
+.agent-action:nth-child(6) { animation-delay: 225ms; }
+.agent-action:nth-child(7) { animation-delay: 270ms; }
+.agent-action:nth-child(8) { animation-delay: 315ms; }
+
+/* Agent changes diff block — scale in */
+.agent-changes {
+  animation: sf-scale-in 220ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* PANEL ANIMATIONS                                               */
+/* ────────────────────────────────────────────────────────────── */
+
+/* Chat panel slides in from the right */
+.chat-panel {
+  animation: sf-slide-in-right 380ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* Todo list — slide up from bottom */
+.todo-list {
+  animation: sf-slide-up 320ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* LOADING & PULSE STATES                                         */
+/* ────────────────────────────────────────────────────────────── */
+
+/* Global loading class */
+.sf-loading {
+  animation: sf-pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Spinner */
+.sf-spinner {
+  animation: sf-spin 750ms linear infinite;
+}
+
+.sf-spinner-slow {
+  animation: sf-spin-slow 2s linear infinite;
+}
+
+/* Todo in-progress icon pulsing ring */
+.todo-item-in-progress .todo-item-icon {
+  animation: sf-pulse-ring 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* SKELETON LOADING                                               */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--sf-bg-surface, rgba(22, 22, 28, 0.92)) 0%,
+    var(--sf-bg-elevated, rgba(30, 30, 40, 0.95)) 40%,
+    var(--sf-bg-surface, rgba(22, 22, 28, 0.92)) 80%
+  );
+  background-size: 200% 100%;
+  animation: sf-shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  border-radius: 6px;
+}
+
+.sf-skeleton-text {
+  height: 13px;
+  margin-bottom: 7px;
+  border-radius: 3px;
+}
+
+.sf-skeleton-text:last-child {
+  width: 55%;
+}
+
+.sf-skeleton-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+}
+
+.sf-skeleton-block {
+  height: 60px;
+  border-radius: 6px;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* MICRO-INTERACTIONS — BUTTONS & INPUTS                          */
+/* ────────────────────────────────────────────────────────────── */
+
+/* Button hover lift */
+.prompt-tag {
+  transition:
+    color 120ms cubic-bezier(0, 0, 0.2, 1),
+    border-color 120ms cubic-bezier(0, 0, 0.2, 1),
+    background-color 120ms cubic-bezier(0, 0, 0.2, 1),
+    transform 100ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.prompt-tag:hover {
+  transform: translateY(-1px);
+}
+
+.prompt-tag:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* Context select press */
+.chat-context-select {
+  transition:
+    color 120ms cubic-bezier(0, 0, 0.2, 1),
+    border-color 120ms cubic-bezier(0, 0, 0.2, 1),
+    background 120ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.chat-context-select:active {
+  transform: scale(0.97);
+}
+
+/* Acceptance buttons */
+.chat-history-change-acceptance button {
+  transition:
+    background 120ms cubic-bezier(0, 0, 0.2, 1),
+    color 120ms cubic-bezier(0, 0, 0.2, 1),
+    transform 80ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chat-history-change-acceptance button:active {
+  transform: scale(0.97);
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* GLOW & BREATHE UTILITIES                                       */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-glow {
+  animation: sf-glow-breathe 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Border glow active state */
+.sf-border-pulse {
+  animation: sf-border-glow 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* COLLAPSE / EXPAND                                              */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-collapsible {
+  overflow: hidden;
+  transition:
+    max-height 350ms cubic-bezier(0, 0, 0.2, 1),
+    opacity    200ms cubic-bezier(0, 0, 0.2, 1),
+    padding    350ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sf-collapsible[aria-hidden='true'] {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sf-collapsible[aria-hidden='false'] {
+  max-height: 600px;
+  opacity: 1;
+}
+
+/* Canvas note expand/collapse */
+.sf-note-expand {
+  overflow: hidden;
+  transition:
+    max-height 350ms cubic-bezier(0, 0, 0.2, 1),
+    opacity    200ms cubic-bezier(0, 0, 0.2, 1);
+  max-height: 600px;
+  opacity: 1;
+}
+
+.sf-note-expand.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* TOOLTIP                                                        */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-tooltip {
+  animation: sf-fade-in-down 140ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* PRESSABLE UTILITY                                              */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-pressable {
+  transition: transform 80ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sf-pressable:active {
+  transform: scale(0.96);
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* FOCUS RING                                                     */
+/* ────────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  transition: outline-offset 80ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ────────────────────────────────────────────────────────────── */
+/* STAGGER CHILDREN UTILITY                                       */
+/* ────────────────────────────────────────────────────────────── */
+
+.sf-stagger > * {
+  animation: sf-fade-in-up 280ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+.sf-stagger > *:nth-child(1)  { animation-delay: 0ms;   }
+.sf-stagger > *:nth-child(2)  { animation-delay: 35ms;  }
+.sf-stagger > *:nth-child(3)  { animation-delay: 70ms;  }
+.sf-stagger > *:nth-child(4)  { animation-delay: 105ms; }
+.sf-stagger > *:nth-child(5)  { animation-delay: 140ms; }
+.sf-stagger > *:nth-child(6)  { animation-delay: 175ms; }
+.sf-stagger > *:nth-child(7)  { animation-delay: 210ms; }
+.sf-stagger > *:nth-child(8)  { animation-delay: 245ms; }
+.sf-stagger > *:nth-child(9)  { animation-delay: 280ms; }
+.sf-stagger > *:nth-child(10) { animation-delay: 315ms; }
+
+/* ────────────────────────────────────────────────────────────── */
+/* REDUCED MOTION — Honor user preference                         */
+/* ────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Kill all declared animations */
+  .chat-history-prompt,
+  .agent-action,
+  .agent-action-type-message,
+  .agent-changes,
+  .todo-list,
+  .chat-panel,
+  .sf-stagger > *,
+  .sf-glow,
+  .sf-border-pulse,
+  .sf-loading,
+  .sf-spinner,
+  .sf-spinner-slow {
+    animation: none;
+  }
+
+  /* Skeleton gets static background instead of shimmer */
+  .sf-skeleton {
+    animation: none;
+    background: var(--sf-bg-surface, rgba(22, 22, 28, 0.92));
+  }
+
+  /* Kill pulse ring on todo icon */
+  .todo-item-in-progress .todo-item-icon {
+    animation: none;
+  }
+
+  /* Keep instant transitions rather than none — still feels responsive */
+  .prompt-tag,
+  .chat-context-select,
+  .chat-history-change-acceptance button,
+  .sf-collapsible,
+  .sf-note-expand,
+  .sf-pressable {
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -372,6 +372,82 @@ export const UpdateAction = z
 	})
 
 export type UpdateAction = z.infer<typeof UpdateAction>
+// Export to Obsidian Action
+export const ExportToObsidianAction = z
+	.object({
+		_type: z.literal('exportToObsidian'),
+		title: z.string().optional(),
+		useSelectedOnly: z.boolean().optional(),
+	})
+	.meta({
+		title: 'Export to Obsidian',
+		description:
+			'The AI exports the canvas (or selected shapes) as a structured Markdown file with YAML frontmatter and a Mermaid diagram. The file is downloaded to the user\'s machine.',
+	})
+
+export type ExportToObsidianAction = z.infer<typeof ExportToObsidianAction>
+
+// Analyze Repository Action
+export const AnalyzeRepositoryAction = z
+	.object({
+		_type: z.literal('analyzeRepository'),
+		url: z.string(),
+		intent: z.string(),
+	})
+	.meta({
+		title: 'Analyze Repository',
+		description:
+			'The AI analyzes a GitHub repository and creates a structured visual decomposition on the canvas with component boxes, dependency arrows, and detail notes.',
+	})
+
+export type AnalyzeRepositoryAction = z.infer<typeof AnalyzeRepositoryAction>
+
+// Create Isometric Node Action
+export const CreateIsoNodeAction = z
+	.object({
+		_type: z.literal('createIsoNode'),
+		x: z.number(),
+		y: z.number(),
+		w: z.number().optional(),
+		h: z.number().optional(),
+		iconId: z.string(),
+		label: z.string(),
+		category: z.enum(['compute', 'network', 'storage', 'cache', 'ai', 'monitoring']),
+		intent: z.string(),
+	})
+	.meta({
+		title: 'Create Isometric Node',
+		description:
+			'Creates an isometric 3D infrastructure component on the canvas.',
+		_systemPromptCategory: 'create',
+	})
+
+export type CreateIsoNodeAction = z.infer<typeof CreateIsoNodeAction>
+
+// Create Canvas Note Action
+export const CreateCanvasNoteAction = z
+	.object({
+		_type: z.literal('createCanvasNote'),
+		x: z.number(),
+		y: z.number(),
+		w: z.number().optional(),
+		h: z.number().optional(),
+		title: z.string(),
+		body: z.string(),
+		category: z
+			.enum(['compute', 'network', 'storage', 'cache', 'ai', 'monitoring', 'default'])
+			.optional(),
+		intent: z.string(),
+	})
+	.meta({
+		title: 'Create Canvas Note',
+		description:
+			'Creates a collapsible note card on the canvas with a title, body text, and category color.',
+		_systemPromptCategory: 'create',
+	})
+
+export type CreateCanvasNoteAction = z.infer<typeof CreateCanvasNoteAction>
+
 // Unknown Action (catch-all for unrecognized actions)
 export const UnknownAction = z
 	.object({

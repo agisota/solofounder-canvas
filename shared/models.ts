@@ -1,3 +1,6 @@
+// solofounder-canvas: AI-driven architecture diagram tool
+// Default model: claude-sonnet-4-5 (best balance of quality and speed for diagram generation)
+
 export type AgentModelName = keyof typeof AGENT_MODEL_DEFINITIONS
 export type AgentModelProvider = 'openai' | 'anthropic' | 'google'
 

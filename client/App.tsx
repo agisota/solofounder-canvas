@@ -14,15 +14,22 @@ import {
 	TldrawAgentAppProvider,
 } from './agent/TldrawAgentAppProvider'
 import { ChatPanel } from './components/ChatPanel'
+import { AuthGate } from './components/AuthGate'
 import { ChatPanelFallback } from './components/ChatPanelFallback'
 import { CustomHelperButtons } from './components/CustomHelperButtons'
+import { SaturationMeter } from './components/SaturationMeter'
 import { AgentViewportBoundsHighlights } from './components/highlights/AgentViewportBoundsHighlights'
 import { AllContextHighlights } from './components/highlights/ContextHighlights'
+import { CanvasNoteShapeUtil } from './shapes/CanvasNoteShapeUtil'
+import { IsoNodeShapeUtil } from './shapes/IsoNodeShapeUtil'
 import { TargetAreaTool } from './tools/TargetAreaTool'
 import { TargetShapeTool } from './tools/TargetShapeTool'
 
 // Customize tldraw's styles to play to the agent's strengths
 DefaultSizeStyle.setDefaultValue('s')
+
+// Custom shapes for the canvas
+const shapeUtils = [CanvasNoteShapeUtil, IsoNodeShapeUtil]
 
 // Custom tools for picking context items
 const tools = [TargetShapeTool, TargetAreaTool]
@@ -76,6 +83,7 @@ function App() {
 						<TldrawAgentAppContextProvider app={app}>
 							<AgentViewportBoundsHighlights />
 							<AllContextHighlights />
+							<SaturationMeter />
 						</TldrawAgentAppContextProvider>
 					)}
 				</>
@@ -84,11 +92,13 @@ function App() {
 	}, [app])
 
 	return (
+		<AuthGate>
 		<TldrawUiToastsProvider>
 			<div className="tldraw-agent-container">
 				<div className="tldraw-canvas">
 					<Tldraw
 						persistenceKey="tldraw-agent-demo"
+						shapeUtils={shapeUtils}
 						tools={tools}
 						overrides={overrides}
 						components={components}
@@ -105,6 +115,7 @@ function App() {
 				</ErrorBoundary>
 			</div>
 		</TldrawUiToastsProvider>
+		</AuthGate>
 	)
 }
 

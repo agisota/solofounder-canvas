@@ -3,12 +3,15 @@ import type { PromptPart } from '../../shared/types/PromptPart'
 
 // Import action utils to ensure they register themselves
 import { AddDetailActionUtil } from '../actions/AddDetailActionUtil'
+import { ExportToObsidianActionUtil } from '../actions/ExportToObsidianActionUtil'
 import { AlignActionUtil } from '../actions/AlignActionUtil'
 import { BringToFrontActionUtil } from '../actions/BringToFrontActionUtil'
 import { ClearActionUtil } from '../actions/ClearActionUtil'
 import { CountryInfoActionUtil } from '../actions/CountryInfoActionUtil'
 import { CountShapesActionUtil } from '../actions/CountShapesActionUtil'
 import { CreateActionUtil } from '../actions/CreateActionUtil'
+import { CreateCanvasNoteActionUtil } from '../actions/CreateCanvasNoteActionUtil'
+import { CreateIsoNodeActionUtil } from '../actions/CreateIsoNodeActionUtil'
 import { DeleteActionUtil } from '../actions/DeleteActionUtil'
 import { DistributeActionUtil } from '../actions/DistributeActionUtil'
 import { LabelActionUtil } from '../actions/LabelActionUtil'
@@ -145,6 +148,8 @@ export const AGENT_MODE_DEFINITIONS = [
 
 			// Individual shapes
 			CreateActionUtil.type,
+			CreateIsoNodeActionUtil.type,
+			CreateCanvasNoteActionUtil.type,
 			DeleteActionUtil.type,
 			UpdateActionUtil.type,
 			LabelActionUtil.type,
@@ -167,6 +172,9 @@ export const AGENT_MODE_DEFINITIONS = [
 			// External APIs
 			CountryInfoActionUtil.type,
 			CountShapesActionUtil.type,
+
+			// Export
+			ExportToObsidianActionUtil.type,
 
 			// Internal (required)
 			UnknownActionUtil.type,

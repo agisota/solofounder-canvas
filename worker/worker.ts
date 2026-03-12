@@ -2,6 +2,8 @@ import { ExecutionContext } from '@cloudflare/workers-types'
 import { WorkerEntrypoint } from 'cloudflare:workers'
 import { AutoRouter, cors, error, IRequest } from 'itty-router'
 import { Environment } from './environment'
+import { authLogin, authLogout, authStatus } from './routes/auth'
+import { deepwikiProxy } from './routes/deepwiki'
 import { stream } from './routes/stream'
 
 const { preflight, corsify } = cors({ origin: '*' })
@@ -13,7 +15,13 @@ const router = AutoRouter<IRequest, [env: Environment, ctx: ExecutionContext]>({
 		console.error(e)
 		return error(e)
 	},
-}).post('/stream', stream)
+})
+	.post('/api/auth/login', authLogin)
+	.post('/api/auth/logout', authLogout)
+	.get('/api/auth/status', authStatus)
+	.get('/api/deepwiki/:owner/:repo/structure', deepwikiProxy)
+	.post('/api/deepwiki/:owner/:repo/contents', deepwikiProxy)
+	.post('/stream', stream)
 
 export default class extends WorkerEntrypoint<Environment> {
 	override fetch(request: Request): Promise<Response> {

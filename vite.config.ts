@@ -12,5 +12,17 @@ export default defineConfig(() => {
 			cloudflare(),
 			react(),
 		],
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks: {
+						tldraw: ['tldraw', '@tldraw/tlschema'],
+						'ai-sdk': ['ai', '@ai-sdk/anthropic', '@ai-sdk/openai', '@ai-sdk/google'],
+						react: ['react', 'react-dom'],
+					},
+				},
+			},
+			chunkSizeWarningLimit: 1000,
+		},
 	}
 })

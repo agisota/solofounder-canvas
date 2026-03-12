@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from 'react'
+import { Dispatch, FormEventHandler, SetStateAction, useState } from 'react'
 import { Editor, useValue } from 'tldraw'
 import { AtIcon } from '../../shared/icons/AtIcon'
 import { BrainIcon } from '../../shared/icons/BrainIcon'
@@ -11,13 +11,21 @@ import { SelectionTag } from './SelectionTag'
 export function ChatInput({
 	handleSubmit,
 	inputRef,
+	onTemplateOpen,
+	externalValue,
+	onExternalValueChange,
 }: {
 	handleSubmit: FormEventHandler<HTMLFormElement>
 	inputRef: React.RefObject<HTMLTextAreaElement | null>
+	onTemplateOpen?: () => void
+	externalValue?: string
+	onExternalValueChange?: Dispatch<SetStateAction<string>>
 }) {
 	const agent = useAgent()
 	const { editor } = agent
-	const [inputValue, setInputValue] = useState('')
+	const [localInputValue, setLocalInputValue] = useState('')
+	const inputValue = externalValue !== undefined ? externalValue : localInputValue
+	const setInputValue = onExternalValueChange !== undefined ? onExternalValueChange : setLocalInputValue
 	const isGenerating = useValue('isGenerating', () => agent.requests.isGenerating(), [agent])
 
 	const isContextToolActive = useValue(
@@ -96,6 +104,16 @@ export function ChatInput({
 				/>
 				<span className="chat-actions">
 					<div className="chat-actions-left">
+						{onTemplateOpen && (
+							<button
+								type="button"
+								className="template-trigger-button"
+								onClick={onTemplateOpen}
+								title="Architecture templates"
+							>
+								/template
+							</button>
+						)}
 						<div className="chat-model-select">
 							<div className="chat-model-select-label">
 								<BrainIcon /> {modelName}

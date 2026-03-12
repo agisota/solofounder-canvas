@@ -1,12 +1,15 @@
-import { FormEventHandler, useCallback, useRef } from 'react'
+import { FormEventHandler, useCallback, useRef, useState } from 'react'
 import { useAgent } from '../agent/TldrawAgentAppProvider'
 import { ChatHistory } from './chat-history/ChatHistory'
 import { ChatInput } from './ChatInput'
+import { TemplatePicker } from './TemplatePicker'
 import { TodoList } from './TodoList'
 
 export function ChatPanel() {
 	const agent = useAgent()
 	const inputRef = useRef<HTMLTextAreaElement>(null)
+	const [isTemplatePickerOpen, setIsTemplatePickerOpen] = useState(false)
+	const [chatInputValue, setChatInputValue] = useState('')
 
 	const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
 		async (e) => {
@@ -23,6 +26,7 @@ export function ChatPanel() {
 
 			// Clear the chat input (context is cleared after it's captured in requestAgentActions)
 			inputRef.current.value = ''
+			setChatInputValue('')
 
 			// Sending a new message to the agent should interrupt the current request
 			agent.interrupt({
@@ -41,6 +45,17 @@ export function ChatPanel() {
 		agent.reset()
 	}, [agent])
 
+	const handleTemplateSelect = useCallback((text: string) => {
+		setChatInputValue(text)
+		// Focus the textarea after inserting template
+		requestAnimationFrame(() => {
+			if (inputRef.current) {
+				inputRef.current.focus()
+				inputRef.current.setSelectionRange(text.length, text.length)
+			}
+		})
+	}, [])
+
 	return (
 		<div className="chat-panel tl-theme__dark">
 			<div className="chat-header">
@@ -51,8 +66,19 @@ export function ChatPanel() {
 			<ChatHistory agent={agent} />
 			<div className="chat-input-container">
 				<TodoList agent={agent} />
-				<ChatInput handleSubmit={handleSubmit} inputRef={inputRef} />
+				<ChatInput
+					handleSubmit={handleSubmit}
+					inputRef={inputRef}
+					onTemplateOpen={() => setIsTemplatePickerOpen(true)}
+					externalValue={chatInputValue}
+					onExternalValueChange={setChatInputValue}
+				/>
 			</div>
+			<TemplatePicker
+				isOpen={isTemplatePickerOpen}
+				onClose={() => setIsTemplatePickerOpen(false)}
+				onSelect={handleTemplateSelect}
+			/>
 		</div>
 	)
 }
