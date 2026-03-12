@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: solofounder-canvas
+    region: fra
+    plan: free
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: wrangler-data
+      mountPath: /data
+      sizeGB: 1
