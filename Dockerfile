@@ -31,11 +31,14 @@ COPY --from=builder /app/.wrangler ./.wrangler
 COPY --from=builder /app/wrangler.toml ./wrangler.toml
 COPY --from=builder /app/package.json ./package.json
 
+# Create empty .dev.vars so wrangler doesn't complain; env vars come from runtime
+RUN touch .dev.vars
+
 VOLUME ["/data"]
 
 EXPOSE 8787
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget -qO- http://localhost:8787/ || exit 1
 
-CMD ["npx", "wrangler", "dev", "--local", "--port", "8787", "--ip", "0.0.0.0", "--persist-to", "/data"]
+CMD ["node_modules/.bin/wrangler", "dev", "--local", "--port", "8787", "--ip", "0.0.0.0", "--persist-to", "/data"]
